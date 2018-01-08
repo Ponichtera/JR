@@ -6,9 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class View extends JFrame {
-    Controller controller;
+    private Controller controller;
 
-    public View(Controller controller) throws HeadlessException {
+    public Controller getController() {
+        return controller;
+    }
+
+    public void setController(Controller controller) {
         this.controller = controller;
     }
 }

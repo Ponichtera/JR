@@ -2,22 +2,23 @@ package gameSokoban.model;
 
 import java.awt.*;
 
-public abstract class GameObject {
-    int x, y, width, height;
+public abstract class AbstractObject {
+    private int x, y, width, height;
 
-    public GameObject(int x, int y) {
+    public AbstractObject(int x, int y) {
         this.x = x;
         this.y = y;
         width = Model.FIELD_CELL_SIZE;
         height = Model.FIELD_CELL_SIZE;
     }
 
-    public GameObject(int x, int y, int width, int height) {
+    public AbstractObject(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
     }
+    public abstract void draw(Graphics graphics);
 
     public int getX() {
         return x;
@@ -51,5 +52,5 @@ public abstract class GameObject {
         this.height = height;
     }
 
-    public void draw(Graphics graphics);
+
 }
