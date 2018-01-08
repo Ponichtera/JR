@@ -1,12 +1,17 @@
 package gameSokoban.view;
 
 import gameSokoban.controller.Controller;
+import gameSokoban.controller.EventListener;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class View extends JFrame {
     private Controller controller;
+    private EventListener eventListener;
+
+    public void setEventListener(EventListener eventListener) {
+        this.eventListener = eventListener;
+    }
 
     public Controller getController() {
         return controller;

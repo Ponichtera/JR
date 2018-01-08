@@ -32,7 +32,7 @@ public class GameObjects {
         return boxes;
     }
 
-    public Set<AbstractObject> getGameObjects() {
+    public Set<AbstractObject> getAllGameObjects() {
         Set<AbstractObject> result = new HashSet<>(walls);
         result.addAll(homes);
         result.addAll(boxes);
