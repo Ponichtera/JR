@@ -1,11 +1,14 @@
 package gameSokoban.view;
 
 import gameSokoban.controller.EventListener;
-import gameSokoban.model.Box;
-import gameSokoban.model.Player;
+import gameSokoban.model.Direction;
+import gameSokoban.model.defaultGameObject;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Set;
 
 public class Field extends JPanel {
     private View view;
@@ -13,6 +16,8 @@ public class Field extends JPanel {
 
     public Field(View view) {
         this.view = view;
+        this.addKeyListener(new KeyHandler());
+        this.setFocusable(true);
     }
 
     public void setEventListener(EventListener eventListener) {
@@ -20,10 +25,29 @@ public class Field extends JPanel {
     }
 
     @Override
-    public void print(Graphics g) {
-        Player p = new Player(20, 20);
-        p.draw(g);
-        Box b = new Box(60, 60);
-        b.draw(g);
+    public void paint(Graphics g) {
+       g.setColor(Color.BLACK);
+       g.fillRect(0, 0, 600, 600);
+        Set<defaultGameObject> gameObjects = view.getGameObjects().getAllGameObjects();
+
+        for (defaultGameObject gameObject : gameObjects)
+            gameObject.draw(g);
+    }
+
+    public class KeyHandler extends KeyAdapter {
+
+        private Field field;
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+            switch (e.getKeyCode()) {
+                case (KeyEvent.VK_LEFT):    eventListener.move(Direction.LEFT);     break;
+                case (KeyEvent.VK_RIGHT):   eventListener.move(Direction.RIGHT);    break;
+                case (KeyEvent.VK_UP):      eventListener.move(Direction.UP);       break;
+                case (KeyEvent.VK_DOWN):    eventListener.move(Direction.DOWN);     break;
+                case (KeyEvent.VK_R):       eventListener.restart();                break;
+            }
+        }
     }
 }

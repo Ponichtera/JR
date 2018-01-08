@@ -3,12 +3,13 @@ package gameSokoban.model;
 
 import java.awt.*;
 
-public class Home extends AbstractObject {
+public class Home extends defaultGameObject {
     public Home(int x, int y) {
         super(x, y);
         setHeight(2);
         setWidth(2);
     }
+
 
     @Override
     public void draw(Graphics graphics) {

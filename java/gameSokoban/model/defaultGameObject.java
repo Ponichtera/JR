@@ -2,17 +2,17 @@ package gameSokoban.model;
 
 import java.awt.*;
 
-public abstract class AbstractObject {
+public abstract class defaultGameObject {
     private int x, y, width, height;
 
-    public AbstractObject(int x, int y) {
+    public defaultGameObject(int x, int y) {
         this.x = x;
         this.y = y;
         width = Model.FIELD_CELL_SIZE;
         height = Model.FIELD_CELL_SIZE;
     }
 
-    public AbstractObject(int x, int y, int width, int height) {
+    public defaultGameObject(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -51,6 +51,4 @@ public abstract class AbstractObject {
     public void setHeight(int height) {
         this.height = height;
     }
-
-
 }

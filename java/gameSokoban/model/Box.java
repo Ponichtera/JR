@@ -2,7 +2,7 @@ package gameSokoban.model;
 
 import java.awt.*;
 
-public class Box extends ColisonObject implements Moveable {
+public class Box extends CollisionObject implements Movable {
 
     public Box(int x, int y) {
         super(x, y);
@@ -10,8 +10,8 @@ public class Box extends ColisonObject implements Moveable {
 
     @Override
     public void move(int x, int y) {
-        this.setX(x);
-        this.setY(y);
+        this.setX(this.getX() + x);
+        this.setY(this.getY() + y);
     }
 
     @Override
