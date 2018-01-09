@@ -6,15 +6,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Model {
-    public static int FIELD_CELL_SIZE = 20;
+    final static int FIELD_CELL_SIZE = 20;
     private EventListener eventListener;
     private GameObjects gameObjects;
     private int currentLevel = 1;
 
-    Path levelPath = Paths.get("D:\\Java\\src\\main\\java\\gameSokoban\\resources\\Levels.txt");
+    private final Path LEVEL_PATH = Paths.get("D:\\Java\\src\\main\\java\\gameSokoban\\resources\\Levels.txt");
     
 
-    private LevelLoader levelLoader = new LevelLoader(levelPath);
+    private LevelLoader levelLoader = new LevelLoader(LEVEL_PATH);
 
     public void setEventListener(EventListener eventListener) {
         this.eventListener = eventListener;
@@ -34,13 +34,18 @@ public class Model {
 
     public void startNextLevel() {
         currentLevel++;
-        restartLevel(currentLevel);
+        restart();
     }
 
     public void move(Direction direction) {
         Player player = gameObjects.getPlayer();
 
-        if (checkWallCollision(player, direction) | checkBoxCollisionAndMoveIfAvailable(direction)) return;
+        if (checkWallCollision(player, direction)) {
+            return;
+        }
+        if (checkBoxCollisionAndMoveIfAvailable(direction)) {
+            return;
+        }
 
         switch (direction) {
             case LEFT:      player.move(-FIELD_CELL_SIZE, 0);   break;

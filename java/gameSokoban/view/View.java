@@ -18,14 +18,6 @@ public class View extends JFrame {
         this.field.setEventListener(eventListener);
     }
 
-    public Controller getController() {
-        return controller;
-    }
-
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
-
     public void update() {
         field.repaint();
     }
@@ -39,7 +31,7 @@ public class View extends JFrame {
         add(field);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(600, 600);
+        setSize(500, 500);
         setLocationRelativeTo(null);
         setTitle("Sokoban");
         setVisible(true);

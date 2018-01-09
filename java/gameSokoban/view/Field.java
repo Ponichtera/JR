@@ -27,7 +27,7 @@ public class Field extends JPanel {
     @Override
     public void paint(Graphics g) {
        g.setColor(Color.BLACK);
-       g.fillRect(0, 0, 600, 600);
+       g.fillRect(0, 0, 500, 500);
         Set<defaultGameObject> gameObjects = view.getGameObjects().getAllGameObjects();
 
         for (defaultGameObject gameObject : gameObjects)
@@ -35,8 +35,6 @@ public class Field extends JPanel {
     }
 
     public class KeyHandler extends KeyAdapter {
-
-        private Field field;
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -46,7 +44,7 @@ public class Field extends JPanel {
                 case (KeyEvent.VK_RIGHT):   eventListener.move(Direction.RIGHT);    break;
                 case (KeyEvent.VK_UP):      eventListener.move(Direction.UP);       break;
                 case (KeyEvent.VK_DOWN):    eventListener.move(Direction.DOWN);     break;
-                case (KeyEvent.VK_R):       eventListener.restart();                break;
+                case (KeyEvent.VK_R):       eventListener.restart();
             }
         }
     }

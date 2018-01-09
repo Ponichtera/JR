@@ -1,6 +1,5 @@
 package gameSokoban.controller;
 
-
 import gameSokoban.model.Direction;
 import gameSokoban.model.GameObjects;
 import gameSokoban.model.Model;
@@ -10,14 +9,15 @@ public class Controller implements EventListener{
     private View view;
     private Model model;
 
-
     public Controller() {
         view = new View(this);
         model = new Model();
+
         view.init();
-        model.setEventListener(this);
-        model.restart();
         view.setEventListener(this);
+
+        model.restart();
+        model.setEventListener(this);
     }
 
     public GameObjects getGameObjects() {
