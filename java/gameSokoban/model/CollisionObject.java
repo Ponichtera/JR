@@ -1,13 +1,13 @@
 package gameSokoban.model;
 
 
-public abstract class CollisionObject extends defaultGameObject {
+public abstract class CollisionObject extends DefaultGameObject {
 
     public CollisionObject(int x, int y) {
         super(x, y);
     }
 
-    public boolean isCollision(defaultGameObject gameObject, Direction direction) {
+    public boolean isCollision(DefaultGameObject gameObject, Direction direction) {
         switch (direction) {
             case LEFT: {
                 return (getX() - Model.FIELD_CELL_SIZE == gameObject.getX() && gameObject.getY() == this.getY());

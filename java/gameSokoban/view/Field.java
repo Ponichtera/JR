@@ -2,7 +2,7 @@ package gameSokoban.view;
 
 import gameSokoban.controller.EventListener;
 import gameSokoban.model.Direction;
-import gameSokoban.model.defaultGameObject;
+import gameSokoban.model.DefaultGameObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,9 +28,9 @@ public class Field extends JPanel {
     public void paint(Graphics g) {
        g.setColor(Color.BLACK);
        g.fillRect(0, 0, 500, 500);
-        Set<defaultGameObject> gameObjects = view.getGameObjects().getAllGameObjects();
+        Set<DefaultGameObject> gameObjects = view.getGameObjects().getAllGameObjects();
 
-        for (defaultGameObject gameObject : gameObjects)
+        for (DefaultGameObject gameObject : gameObjects)
             gameObject.draw(g);
     }
 

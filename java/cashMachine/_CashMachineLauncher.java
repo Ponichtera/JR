@@ -9,10 +9,11 @@ import java.util.Locale;
 public class _CashMachineLauncher {
 
 
-    public final static String RESOURCE_PATH = "/cashMachine/resources/";
+    //public final static String RESOURCE_PATH = ".src/main/java/cashMachine/resources/";
+    public final static String RESOURCE_PATH = ".src.main.java.cashMachine.resources/";
 
         public static void main (String[] args) {
-        //Locale.setDefault(Locale.ENGLISH);
+        Locale.setDefault(Locale.ENGLISH);
         Operation operation;
         try {
         CommandExecutor.execute(Operation.LOGIN);

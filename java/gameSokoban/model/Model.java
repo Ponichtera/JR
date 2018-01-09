@@ -11,8 +11,8 @@ public class Model {
     private GameObjects gameObjects;
     private int currentLevel = 1;
 
-    private final Path LEVEL_PATH = Paths.get("D:\\Java\\src\\main\\java\\gameSokoban\\resources\\Levels.txt");
-    
+    private final Path LEVEL_PATH = Paths.get("src/main/java/gameSokoban/resources/Levels.txt");
+
 
     private LevelLoader levelLoader = new LevelLoader(LEVEL_PATH);
 
@@ -66,9 +66,9 @@ public class Model {
 
     public boolean checkBoxCollisionAndMoveIfAvailable(Direction direction) {
         Player player = gameObjects.getPlayer();
-        defaultGameObject stopped = null;
+        DefaultGameObject stopped = null;
 
-        for (defaultGameObject gameObject : gameObjects.getAllGameObjects())
+        for (DefaultGameObject gameObject : gameObjects.getAllGameObjects())
             if (!(gameObject instanceof Player) && !(gameObject instanceof Home) && player.isCollision(gameObject, direction))
                 stopped = gameObject;
 

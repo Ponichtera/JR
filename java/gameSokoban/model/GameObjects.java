@@ -32,8 +32,8 @@ public class GameObjects {
         return boxes;
     }
 
-    public Set<defaultGameObject> getAllGameObjects() {
-        Set<defaultGameObject> result = new HashSet<>(walls);
+    public Set<DefaultGameObject> getAllGameObjects() {
+        Set<DefaultGameObject> result = new HashSet<>(walls);
         result.addAll(homes);
         result.addAll(boxes);
         result.add(player);

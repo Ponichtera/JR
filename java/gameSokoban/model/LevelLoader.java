@@ -12,6 +12,9 @@ public class LevelLoader {
 
     public LevelLoader(Path levels) {
         this.levels = levels;
+//        System.out.println(levels);
+//        System.out.println(levels.toAbsolutePath());
+//        System.out.println(levels.toString());
     }
 
     public GameObjects getLevel(int level) {

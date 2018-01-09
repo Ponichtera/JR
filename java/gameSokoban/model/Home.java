@@ -3,7 +3,7 @@ package gameSokoban.model;
 
 import java.awt.*;
 
-public class Home extends defaultGameObject {
+public class Home extends DefaultGameObject {
     public Home(int x, int y) {
         super(x, y);
         setHeight(2);
