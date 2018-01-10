@@ -29,7 +29,7 @@ public class Board extends JPanel implements ActionListener {
 //      images
     private Image mouse;
     private Image head;
-    private Image snakeElement;
+    private Image body;
 
 //      others
     private Timer timer;
@@ -86,7 +86,6 @@ public class Board extends JPanel implements ActionListener {
             }
         }
     }
-// git push test
 
     @Override
     public void actionPerformed(ActionEvent e) {}
