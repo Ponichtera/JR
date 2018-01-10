@@ -79,7 +79,6 @@ public class ConsoleHelper {
             }
             break;
         }
-
         return money;
     }
 

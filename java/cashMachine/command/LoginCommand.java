@@ -8,9 +8,12 @@ import cashMachine.exception.InterruptOperationException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import static cashMachine._CashMachineLauncher.RESOURCE_PATH;
+
 public class LoginCommand implements Command {
-    private ResourceBundle validCreditCards =  ResourceBundle.getBundle(_CashMachineLauncher.RESOURCE_PATH + "verifiedCards" );
-    private ResourceBundle res = ResourceBundle.getBundle(_CashMachineLauncher.RESOURCE_PATH + "login_en", Locale.ENGLISH);
+   // private ResourceBundle validCreditCards =  ResourceBundle.getBundle(RESOURCE_PATH + "verifiedCards" );
+    private ResourceBundle validCreditCards =  ResourceBundle.getBundle("D:\\Java\\src\\main\\java\\cashMachine\\resources\\verifiedCards");
+    private ResourceBundle res = ResourceBundle.getBundle(RESOURCE_PATH + "login_en", Locale.ENGLISH);
 
     @Override
     public void execute() throws InterruptOperationException {
