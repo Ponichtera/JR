@@ -2,6 +2,10 @@ package gameSnake;
 
 //  Based on this tutorial http://zetcode.com/tutorials/javagamestutorial/snake/
 //  learning to write from UML
+//  To do:
+//  -highscore board
+//  -ability to chose level
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,13 +13,10 @@ import java.awt.event.*;
 
 public class Board extends JPanel implements ActionListener {
     private final int ELEMENT_SIZE = 20;
-    private final int BOARD_WIDTH = 800;
-    private final int BOARD_HEIGHT = 600;
+    private final int BOARD_WIDTH = 400;
+    private final int BOARD_HEIGHT = 300;
     private final int MAX_SNAKE_LENGTH = (BOARD_WIDTH * BOARD_HEIGHT) / (ELEMENT_SIZE * ELEMENT_SIZE);
-    private final int GAME_SPEED = 130; // pause between moves (in milliseconds)
-    private final int RANDOM_X = BOARD_WIDTH / ELEMENT_SIZE - 1;
-    private final int RANDOM_Y = BOARD_HEIGHT / ELEMENT_SIZE - 1;
-
+    private final int GAME_SPEED = 150;
 //      arrays of all snake elements coordinates
     private final int[] snakeX = new int[MAX_SNAKE_LENGTH];
     private final int[] snakeY = new int[MAX_SNAKE_LENGTH];
@@ -41,13 +42,13 @@ public class Board extends JPanel implements ActionListener {
     // -----------------------------------------------------------
 
     public Board() {
-        setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
-        setBackground(new Color(0x7BA352));
-        setFocusable(true);
         addKeyListener(new CustomKeyAdapter());
+        setBackground(new Color(0xCC9900));
+        setFocusable(true);
 
+        setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
+        loadImages();
         initGame();
-        setVisible(true);
     }
 
 
@@ -64,70 +65,93 @@ public class Board extends JPanel implements ActionListener {
                         isLeft  = true;
                         isUp    = false;
                         isDown  = false;
+                        break;
                     }
+                    break;
                 case  KeyEvent.VK_RIGHT:
                     if(!isLeft) {
                         isRight = true;
                         isUp    = false;
                         isDown  = false;
+                        break;
                     }
+                    break;
                 case KeyEvent.VK_DOWN:
                     if(!isUp) {
                         isDown  = true;
                         isLeft  = false;
                         isRight = false;
+                        break;
                     }
+                    break;
                 case KeyEvent.VK_UP:
                     if (!isDown) {
                         isUp    = true;
                         isLeft  = false;
                         isRight = false;
+                        break;
                     }
+                    break;
             }
         }
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {}
-    public void paintComponent(Graphics g){}
+    public void actionPerformed(ActionEvent e) {
+        if (!isGameOver) {
+            checkMouse();
+            checkCollision();
+            move();
+        }
+        repaint();
+    }
+
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        doDrawing(g);
+    }
+
+    private void doDrawing(Graphics g) {
+
+        if (!isGameOver) {
+            g.drawImage(mouse, mouseX, mouseY, this);
+            for(int i = 1; i < snakeElementCounter; i++)
+                g.drawImage(body, snakeX[i], snakeY[i], this);
+
+            g.drawImage(head, snakeX[0], snakeY[0], this);
+
+        Toolkit.getDefaultToolkit().sync();
+
+        } else gameOver(g);
+    }
+
     private void checkMouse() {
         if (snakeX[0] == mouseX && snakeY[0] == mouseY) {
             snakeElementCounter++;
-            drawMouse();
+            generateMouse();
         }
     }
-    private void checkCollision() {}
-    private void doDrawing(Graphics g) {}
-    private void gameOver(Graphics g) {}
 
-    private void initGame() {
-        // create snake
-        snakeElementCounter = 3;
-        for(int i = 0; i < snakeElementCounter; i++) {
-            snakeX[i] = (BOARD_WIDTH / ELEMENT_SIZE / 4) - i * ELEMENT_SIZE;
-            snakeY[i] = BOARD_HEIGHT / ELEMENT_SIZE / 4;
+    private void checkCollision() {
+        // collision with snake body
+        for (int i = 1; i < snakeElementCounter; i++)
+            if (snakeX[i] == snakeX[0] && snakeY[i] == snakeY[0])
+                isGameOver = true;
 
-            drawMouse();
-            isGameOver = false;
+        // collision with walls
+//        if(snakeX[0] < 0)               isGameOver = true;
+//        if(snakeX[0] >= BOARD_WIDTH)    isGameOver = true;
+//        if(snakeY[0] < 0)               isGameOver = true;
+//        if(snakeY[0] >= BOARD_WIDTH)    isGameOver = true;
 
-            timer = new Timer(GAME_SPEED, this);
-            timer.start();
-        }
+        if (
+            snakeX[0] < 0 |
+            snakeY[0] < 0 |
+            snakeX[0] >= BOARD_WIDTH  - ELEMENT_SIZE |
+            snakeY[0] >= BOARD_HEIGHT - ELEMENT_SIZE
+               ) isGameOver = true;
 
-    }
-    private void loadImages() {}
-
-    private void drawMouse() {
-       int tmpX = (int) (Math.random() * RANDOM_X);
-       int tmpY = (int) (Math.random() * RANDOM_Y);
-
-       for(int i = 0; i < MAX_SNAKE_LENGTH; i++) {
-           if (snakeX[i] == 0) break;
-           if (snakeX[i] == tmpX && snakeY[i] == tmpY)
-               drawMouse();
-       }
-       mouseX = tmpX;
-       mouseY = tmpY;
     }
 
     private void move() {
@@ -136,10 +160,78 @@ public class Board extends JPanel implements ActionListener {
             snakeX[i] = snakeX[i-1];
             snakeY[i] = snakeY[i-1];
         }
+
         if (isLeft)     snakeX[0] -= ELEMENT_SIZE;
         if (isRight)    snakeX[0] += ELEMENT_SIZE;
         if (isUp)       snakeY[0] -= ELEMENT_SIZE;
         if (isDown)     snakeY[0] += ELEMENT_SIZE;
 
+    }
+
+    private void gameOver(Graphics g) {
+        String message = "GAME OVER";
+        Font font = new Font("Helvetica", Font.BOLD, 28);
+        int messageSize = getFontMetrics(font).stringWidth(message);
+
+        g.setColor(Color.white);
+        g.setFont(font);
+        g.drawString(message, (BOARD_WIDTH - messageSize) / 2, BOARD_HEIGHT /2 );
+    }
+
+    private void initGame() {
+        // create snake
+        snakeElementCounter = 3;
+        for(int i = 0; i < snakeElementCounter; i++) {
+            snakeX[i] = (BOARD_WIDTH / ELEMENT_SIZE * 4) - (i * ELEMENT_SIZE);
+            snakeY[i] = BOARD_HEIGHT / ELEMENT_SIZE * 4;
+        }
+            generateMouse();
+            isGameOver = false;
+
+            timer = new Timer(GAME_SPEED, this);
+            timer.start();
+
+    }
+
+    private void loadImages() {
+        // temp absolute file paths
+
+        ImageIcon bodyIcon = new ImageIcon("D:\\Java\\src\\main\\java\\gameSnake\\body.png");
+        body = bodyIcon.getImage();
+
+        ImageIcon headIcon = new ImageIcon("D:\\Java\\src\\main\\java\\gameSnake\\head.png");
+        head = headIcon.getImage();
+
+        ImageIcon mouseIcon = new ImageIcon("D:\\Java\\src\\main\\java\\gameSnake\\mouse.png");
+        mouse = mouseIcon.getImage();
+    }
+
+    private XY generateMouse() {
+        final int RANDOM_X = BOARD_WIDTH / ELEMENT_SIZE - 1;
+        final int RANDOM_Y = BOARD_HEIGHT / ELEMENT_SIZE - 1;
+
+        int tmpX = ((int) (Math.random() * RANDOM_X)) * ELEMENT_SIZE;
+        int tmpY = ((int) (Math.random() * RANDOM_Y)) * ELEMENT_SIZE;
+
+        XY xy = new XY(tmpX,tmpY);
+
+        for (int i = 0; i < MAX_SNAKE_LENGTH; i++) {
+
+            if (snakeX[i] == tmpX && snakeY[i] == tmpY)
+                xy = generateMouse();
+        }
+
+        mouseX = xy.x;
+        mouseY = xy.y;
+        return xy;
+    }
+
+    private class XY {
+        int x,y;
+
+        public XY(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
     }
 }
